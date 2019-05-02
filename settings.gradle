@@ -1,0 +1,3 @@
+rootProject.name = 'mugshot'
+
+include 'pandora'
