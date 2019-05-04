@@ -24,14 +24,14 @@ public class MugshotController {
   private final ImageStorer imageStorer;
 
   @Autowired
-  public MugshotController(ImageStorer imageStorer) {
+  public MugshotController(final ImageStorer imageStorer) {
     this.imageStorer = imageStorer;
   }
 
   @ResponseStatus(code = HttpStatus.OK, reason = "Profile image successfully stored")
   @PostMapping
   public void sendImageProfile(
-      @RequestParam("image") MultipartFile insertedImage,
+      @RequestParam("image") final MultipartFile insertedImage,
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId
   ){
     if(!validateIfHasAnImageAsExtension(insertedImage.getOriginalFilename())) {

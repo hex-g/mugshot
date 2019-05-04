@@ -18,7 +18,7 @@ public class UtilsController {
   private String imageName;
 
   @Autowired
-  public UtilsController(ImageStorer imageStorer){
+  public UtilsController(final ImageStorer imageStorer){
     this.imageStorer=imageStorer;
   }
 
