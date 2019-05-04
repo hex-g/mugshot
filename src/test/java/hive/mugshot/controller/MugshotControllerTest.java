@@ -1,6 +1,6 @@
 package hive.mugshot.controller;
 
-import hive.mugshot.exception.ImageNotFound;
+import hive.mugshot.exception.ImageNotFoundException;
 import hive.mugshot.storage.ImageStorer;
 
 import org.junit.*;
@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 public class MugshotControllerTest {
 
+  private final String userId = RandomStringUtils.randomAlphabetic(8);
   private String validDirectoryName;
-  private String userId = RandomStringUtils.randomAlphabetic(8);
 
   private MockMvc mockMvc;
   private MockMultipartFile multipartFile;
@@ -48,13 +48,13 @@ public class MugshotControllerTest {
   @Mock
   private ImageStorer imageStorer;
 
-  private Resource createImageForTest(String directoryName) throws Exception{
+  private Resource createImageForTest(final String directoryName) throws Exception{
     var file=new File(directoryName + "/ProfileImage.jpg");
     ImageIO.write(new BufferedImage(512,512,BufferedImage.TYPE_INT_RGB),"jpg",file);
     return new UrlResource(file.toURI());
   }
 
-  private void createDirectoryForTest(String directoryName) throws Exception{
+  private void createDirectoryForTest(final String directoryName) throws Exception{
     Files.createDirectories(Paths.get(directoryName));
   }
 
@@ -99,7 +99,7 @@ public class MugshotControllerTest {
 
   @Test
   public void givenFileNotFound_WhenImageRetrieved_then404isReturned() throws Exception{
-    given(imageStorer.loadImage(userId,imageName)).willThrow(new ImageNotFound());
+    given(imageStorer.loadImage(userId,imageName)).willThrow(new ImageNotFoundException());
     createDirectoryForTest(validDirectoryName);
     mockMvc.perform(
         get("/")
