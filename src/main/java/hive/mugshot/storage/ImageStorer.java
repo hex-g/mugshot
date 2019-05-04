@@ -1,7 +1,7 @@
 package hive.mugshot.storage;
 
 import hive.mugshot.exception.ImageNotFoundException;
-import hive.mugshot.exception.InvalidPathException;
+import hive.mugshot.exception.ImageProfileIOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +28,7 @@ public class ImageStorer {
       var buff = ImageUtils.resizeImageToSquare(ImageIO.read(insertedImage.getInputStream()),imageSizeInPixels);
       ImageIO.write(buff, "jpg", createFullPathToTheFile(userDirectoryName, imageStoredName).toFile());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ImageProfileIOException(e);
     }
   }
 
@@ -39,7 +39,7 @@ public class ImageStorer {
       var buff = ImageUtils.resizeImageToSquare(insertedImage,imageSizeInPixels);
       ImageIO.write(buff, "jpg", createFullPathToTheFile(userDirectoryName, imageStoredName).toFile());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new ImageProfileIOException(e);
     }
   }
   public Resource loadImage(final String userDirectoryName,final String imageName) {
@@ -53,7 +53,7 @@ public class ImageStorer {
       }
     } catch (MalformedURLException e) {
       e.printStackTrace();
-      throw new InvalidPathException();
+      throw new RuntimeException();
     }
   }
 
@@ -63,7 +63,7 @@ public class ImageStorer {
       Files.deleteIfExists(parentDir);
     } catch (IOException e) {
       e.printStackTrace();
-      throw new RuntimeException("Unable to delete the directory.\n"+e);
+      throw new ImageProfileIOException(e);
     }
   }
 
@@ -73,7 +73,8 @@ public class ImageStorer {
       try {
         Files.createDirectories(parentDir);
       } catch (IOException e) {
-        throw new RuntimeException("Unable to create the directory.\n"+e);
+        e.printStackTrace();
+        throw new ImageProfileIOException(e);
       }
     }
   }
