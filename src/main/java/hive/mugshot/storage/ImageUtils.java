@@ -17,7 +17,7 @@ public final class ImageUtils {
     return matcher.matches();
   }
 
-  public static BufferedImage resizeImageToSquare(BufferedImage inputtedImage,int imageSizeInPixels) {
+  public static BufferedImage resizeImageToSquare(final BufferedImage inputtedImage,final int imageSizeInPixels) {
     // multi-pass bilinear div 2
     var bufferedImageWithNewSize = new BufferedImage(imageSizeInPixels, imageSizeInPixels, BufferedImage.TYPE_INT_RGB);
     var reSizer = bufferedImageWithNewSize.createGraphics();

@@ -1,6 +1,6 @@
 package hive.mugshot.storage;
 
-import hive.mugshot.exception.*;
+import hive.mugshot.exception.ImageNotFoundException;
 import hive.mugshot.exception.InvalidPathException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -21,7 +21,8 @@ public class ImageStorer {
   @Value("${hive.mugshot.profile-image-dimension}")
   private int imageSizeInPixels;
 
-  public void storeImageProfile(String userDirectoryName, MultipartFile insertedImage, String imageStoredName){
+  public void storeImageProfile
+      (final String userDirectoryName,final MultipartFile insertedImage, String imageStoredName){
     createDirectoryIfNotExist(userDirectoryName);
     try {
       var buff = ImageUtils.resizeImageToSquare(ImageIO.read(insertedImage.getInputStream()),imageSizeInPixels);
@@ -31,7 +32,8 @@ public class ImageStorer {
     }
   }
 
-  public void storeImageProfile(String userDirectoryName, BufferedImage insertedImage, String imageStoredName){
+  public void storeImageProfile
+      (final String userDirectoryName,final BufferedImage insertedImage,final String imageStoredName){
     createDirectoryIfNotExist(userDirectoryName);
     try {
       var buff = ImageUtils.resizeImageToSquare(insertedImage,imageSizeInPixels);
@@ -40,14 +42,14 @@ public class ImageStorer {
       throw new RuntimeException(e);
     }
   }
-  public Resource loadImage(String userDirectoryName,String imageName) {
+  public Resource loadImage(final String userDirectoryName,final String imageName) {
     try {
       var file = createFullPathToTheFile(userDirectoryName,imageName);
       var resource = new UrlResource(file.toUri());
       if (resource.exists() || resource.isReadable()) {
         return resource;
       }else{
-        throw new ImageNotFound();
+        throw new ImageNotFoundException();
       }
     } catch (MalformedURLException e) {
       e.printStackTrace();
@@ -55,7 +57,7 @@ public class ImageStorer {
     }
   }
 
-  public void deleteImage(String userDirectoryName, String imageName) {
+  public void deleteImage(final String userDirectoryName,final String imageName) {
     var parentDir = createFullPathToTheFile(userDirectoryName,imageName);
     try {
       Files.deleteIfExists(parentDir);
@@ -65,7 +67,7 @@ public class ImageStorer {
     }
   }
 
-  private void createDirectoryIfNotExist(String userDirectoryPath){
+  private void createDirectoryIfNotExist(final String userDirectoryPath){
     Path parentDir = Paths.get(rootDir,userDirectoryPath);
     if (!Files.exists(parentDir)) {
       try {
@@ -76,7 +78,7 @@ public class ImageStorer {
     }
   }
 
-  private Path createFullPathToTheFile(String userDirectoryName, String filename) {
+  private Path createFullPathToTheFile(final String userDirectoryName, final String filename) {
     return Paths.get(rootDir).resolve(userDirectoryName).resolve(filename);
   }
 
