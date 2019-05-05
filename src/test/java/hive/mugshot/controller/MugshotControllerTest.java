@@ -34,28 +34,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 public class MugshotControllerTest {
 
-  private final String userId = RandomStringUtils.randomAlphabetic(8);
-  private String validDirectoryName;
-
-  private MockMvc mockMvc;
-  private MockMultipartFile multipartFile;
-
   @Value("${hive.mugshot.image-directory-path}")
   private String rootDir;
   @Value("${hive.mugshot.profile-image-name}")
   private String imageName;
 
+  private final String userId = RandomStringUtils.randomAlphabetic(8);
+  private final Path validUserDirectory =Paths.get(rootDir,userId);
+
+  private MockMvc mockMvc;
+  private MockMultipartFile multipartFile;
+
   @Mock
   private ImageStorer imageStorer;
 
-  private Resource createImageForTest(final String directoryName) throws Exception{
-    final var file=new File(directoryName + "/ProfileImage.jpg");
+  private Resource createImageForTest(final Path directory) throws Exception{
+    final var file= directory.resolve(imageName).toFile();
     ImageIO.write(new BufferedImage(512,512,BufferedImage.TYPE_INT_RGB),"jpg",file);
     return new UrlResource(file.toURI());
   }
 
-  private void createDirectoryForTest(final String directoryName) throws Exception{
-    Files.createDirectories(Paths.get(directoryName));
+  private void createDirectoryForTest(final Path directory) throws Exception{
+    Files.createDirectories(directory);
   }
 
   @Before
@@ -64,13 +64,12 @@ public class MugshotControllerTest {
     final var mugshotController = new MugshotController(imageStorer);
     ReflectionTestUtils.setField(mugshotController, "imageName", imageName);
     mockMvc = MockMvcBuilders.standaloneSetup(mugshotController).build();
-    validDirectoryName = (rootDir + "/" + userId + "/");
   }
 
   @Test
   public void givenValidImage_WhenImageRetrieved_then200andJpegImageTypeIsReturned() throws Exception{
-    createDirectoryForTest(validDirectoryName);
-    final var resourceImage=createImageForTest(validDirectoryName);
+    createDirectoryForTest(validUserDirectory);
+    final var resourceImage=createImageForTest(validUserDirectory);
     given(imageStorer.loadImage(userId,imageName))
         .willReturn(resourceImage);
       mockMvc.perform(
@@ -91,16 +90,16 @@ public class MugshotControllerTest {
   }
 
   @Test
-  public void givenValidImage_WhenImageDeleted_then204isReturned() throws Exception{
+  public void givenValidImage_WhenImageDeleted_then200isReturned() throws Exception{
     mockMvc.perform(
         delete("/").header(AUTHENTICATED_USER_ID, userId)
-    ).andExpect(status().isNoContent());
+    ).andExpect(status().isOk());
   }
 
   @Test
   public void givenFileNotFound_WhenImageRetrieved_then404isReturned() throws Exception{
     given(imageStorer.loadImage(userId,imageName)).willThrow(new ImageNotFoundException());
-    createDirectoryForTest(validDirectoryName);
+    createDirectoryForTest(validUserDirectory);
     mockMvc.perform(
         get("/")
         .header(AUTHENTICATED_USER_ID, userId))
