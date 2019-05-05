@@ -25,7 +25,7 @@ public class UtilsController {
   @ResponseStatus(code = HttpStatus.OK, reason = "Random image generated and successfully stored")
   @PostMapping("/generateRandomImage")
   public void generateRandomImage(@RequestHeader(name = AUTHENTICATED_USER_ID) final String userId) {
-    var generatedImage=ImageUtils.generateRandomImage();
+    final var generatedImage=ImageUtils.generateRandomImage();
     imageStorer.storeImageProfile(userId,generatedImage,imageName);
   }
 

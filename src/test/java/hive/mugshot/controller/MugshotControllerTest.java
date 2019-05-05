@@ -49,7 +49,7 @@ public class MugshotControllerTest {
   private ImageStorer imageStorer;
 
   private Resource createImageForTest(final String directoryName) throws Exception{
-    var file=new File(directoryName + "/ProfileImage.jpg");
+    final var file=new File(directoryName + "/ProfileImage.jpg");
     ImageIO.write(new BufferedImage(512,512,BufferedImage.TYPE_INT_RGB),"jpg",file);
     return new UrlResource(file.toURI());
   }
@@ -61,7 +61,7 @@ public class MugshotControllerTest {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    var mugshotController = new MugshotController(imageStorer);
+    final var mugshotController = new MugshotController(imageStorer);
     ReflectionTestUtils.setField(mugshotController, "imageName", imageName);
     mockMvc = MockMvcBuilders.standaloneSetup(mugshotController).build();
     validDirectoryName = (rootDir + "/" + userId + "/");
@@ -70,7 +70,7 @@ public class MugshotControllerTest {
   @Test
   public void givenValidImage_WhenImageRetrieved_then200andJpegImageTypeIsReturned() throws Exception{
     createDirectoryForTest(validDirectoryName);
-    var resourceImage=createImageForTest(validDirectoryName);
+    final var resourceImage=createImageForTest(validDirectoryName);
     given(imageStorer.loadImage(userId,imageName))
         .willReturn(resourceImage);
       mockMvc.perform(
@@ -110,8 +110,8 @@ public class MugshotControllerTest {
 
   @Test
   public void givenUnsupportedMediaType_WhenImageUploaded_then415isReturned()throws Exception{
-      BufferedImage originalImage = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
-      ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+      final var originalImage = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
+      final var byteArrayOutputStream = new ByteArrayOutputStream();
       ImageIO.write(originalImage, "jpg", byteArrayOutputStream);
       multipartFile = new MockMultipartFile("image", "Unsupported.Extension.wmv", MediaType.APPLICATION_PDF_VALUE, byteArrayOutputStream.toByteArray());
       mockMvc.perform(multipart("/")
@@ -123,8 +123,7 @@ public class MugshotControllerTest {
 
   @Test
   public void givenWrongRequestBodyKey_WhenImageUploaded_then400isReturned() throws Exception{
-      byte[] EmptyFile = new byte[0];
-      multipartFile = new MockMultipartFile("wrongBodyKey", "ProfileImage.jpeg", MediaType.IMAGE_JPEG_VALUE, EmptyFile);
+      multipartFile = new MockMultipartFile("wrongBodyKey", "ProfileImage.jpeg", MediaType.IMAGE_JPEG_VALUE, new byte[0]);
       mockMvc.perform(multipart("/")
           .file(multipartFile).header(AUTHENTICATED_USER_ID, userId))
           .andExpect(status().isBadRequest())

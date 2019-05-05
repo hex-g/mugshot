@@ -44,7 +44,7 @@ public class MugshotController {
   public ResponseEntity<Resource> searchProfileImage(
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId
   ){
-    Resource file = imageStorer.loadImage(userId,imageName);
+    final var file = imageStorer.loadImage(userId,imageName);
     return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
   }
 

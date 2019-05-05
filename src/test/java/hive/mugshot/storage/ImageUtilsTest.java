@@ -28,16 +28,16 @@ public class ImageUtilsTest {
 
   @Test
   public void resizeImageToSquare_whenInitialImageIsNotNull_expectSquareImageInConfiguredSize(){
-    var initialImage=new BufferedImage(10,50,BufferedImage.TYPE_INT_RGB);
-    var resizedImage=ImageUtils.resizeImageToSquare(initialImage,imageSizeInPixels);
+    final var initialImage=new BufferedImage(10,50,BufferedImage.TYPE_INT_RGB);
+    final var resizedImage=ImageUtils.resizeImageToSquare(initialImage,imageSizeInPixels);
     Assert.assertEquals(imageSizeInPixels,resizedImage.getWidth());
     Assert.assertEquals(imageSizeInPixels,resizedImage.getHeight());
   }
 
   @Test
   public void whenGenerateRandomImageAndResizeToSquare_expectSquareImageInConfiguredSize(){
-    var generatedImage=ImageUtils.generateRandomImage();
-    var imageResized=ImageUtils.resizeImageToSquare(generatedImage,imageSizeInPixels);
+    final var generatedImage=ImageUtils.generateRandomImage();
+    final var imageResized=ImageUtils.resizeImageToSquare(generatedImage,imageSizeInPixels);
     Assert.assertEquals(imageSizeInPixels,imageResized.getWidth());
     Assert.assertEquals(imageSizeInPixels,imageResized.getHeight());
   }

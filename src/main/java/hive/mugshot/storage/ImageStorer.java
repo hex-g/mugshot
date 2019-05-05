@@ -22,10 +22,10 @@ public class ImageStorer {
   private int imageSizeInPixels;
 
   public void storeImageProfile
-      (final String userDirectoryName,final MultipartFile insertedImage, String imageStoredName){
+      (final String userDirectoryName,final MultipartFile insertedImage,final String imageStoredName){
     createDirectoryIfNotExist(userDirectoryName);
     try {
-      var buff = ImageUtils.resizeImageToSquare(ImageIO.read(insertedImage.getInputStream()),imageSizeInPixels);
+      final var buff = ImageUtils.resizeImageToSquare(ImageIO.read(insertedImage.getInputStream()),imageSizeInPixels);
       ImageIO.write(buff, "jpg", createFullPathToTheFile(userDirectoryName, imageStoredName).toFile());
     } catch (IOException e) {
       throw new ImageProfileIOException(e);
@@ -36,7 +36,7 @@ public class ImageStorer {
       (final String userDirectoryName,final BufferedImage insertedImage,final String imageStoredName){
     createDirectoryIfNotExist(userDirectoryName);
     try {
-      var buff = ImageUtils.resizeImageToSquare(insertedImage,imageSizeInPixels);
+      final var buff = ImageUtils.resizeImageToSquare(insertedImage,imageSizeInPixels);
       ImageIO.write(buff, "jpg", createFullPathToTheFile(userDirectoryName, imageStoredName).toFile());
     } catch (IOException e) {
       throw new ImageProfileIOException(e);
@@ -44,8 +44,8 @@ public class ImageStorer {
   }
   public Resource loadImage(final String userDirectoryName,final String imageName) {
     try {
-      var file = createFullPathToTheFile(userDirectoryName,imageName);
-      var resource = new UrlResource(file.toUri());
+      final var file = createFullPathToTheFile(userDirectoryName,imageName);
+      final var resource = new UrlResource(file.toUri());
       if (resource.exists() || resource.isReadable()) {
         return resource;
       }else{
@@ -58,7 +58,7 @@ public class ImageStorer {
   }
 
   public void deleteImage(final String userDirectoryName,final String imageName) {
-    var parentDir = createFullPathToTheFile(userDirectoryName,imageName);
+    final var parentDir = createFullPathToTheFile(userDirectoryName,imageName);
     try {
       Files.deleteIfExists(parentDir);
     } catch (IOException e) {

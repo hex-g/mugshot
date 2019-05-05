@@ -38,7 +38,7 @@ public class UtilsControllerTest {
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    var utilsController = new UtilsController(imageStorer);
+    final var utilsController = new UtilsController(imageStorer);
     ReflectionTestUtils.setField(utilsController, "imageName", imageName);
     mockMvc = MockMvcBuilders.standaloneSetup(utilsController).build();
   }
