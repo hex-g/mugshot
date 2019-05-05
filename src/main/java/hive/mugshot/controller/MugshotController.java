@@ -1,6 +1,6 @@
 package hive.mugshot.controller;
 
-import hive.mugshot.exception.NotAcceptedFileFormatException;
+import hive.mugshot.exception.UnsupportedFileFormatException;
 import hive.mugshot.storage.ImageStorer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +35,7 @@ public class MugshotController {
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId
   ){
     if(!validateIfHasAnImageAsExtension(insertedImage.getOriginalFilename())) {
-      throw new NotAcceptedFileFormatException();
+      throw new UnsupportedFileFormatException();
     }
     imageStorer.storeImageProfile(userId,insertedImage,imageName);
   }
@@ -48,7 +48,7 @@ public class MugshotController {
     return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
   }
 
-  @ResponseStatus(code = HttpStatus.NO_CONTENT, reason = "Profile image successfully deleted")
+  @ResponseStatus(code = HttpStatus.OK, reason = "Profile image successfully deleted")
   @DeleteMapping
   public void deleteProfileImage(
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId
