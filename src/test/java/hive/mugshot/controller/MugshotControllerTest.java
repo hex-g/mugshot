@@ -40,8 +40,8 @@ public class MugshotControllerTest {
   private String imageName;
 
   private final String userId = RandomStringUtils.randomAlphabetic(8);
-  private final Path validUserDirectory =Paths.get(rootDir,userId);
 
+  private Path validUserDirectory;
   private MockMvc mockMvc;
   private MockMultipartFile multipartFile;
 
@@ -64,6 +64,7 @@ public class MugshotControllerTest {
     final var mugshotController = new MugshotController(imageStorer);
     ReflectionTestUtils.setField(mugshotController, "imageName", imageName);
     mockMvc = MockMvcBuilders.standaloneSetup(mugshotController).build();
+    validUserDirectory = Paths.get(rootDir,userId);
   }
 
   @Test
