@@ -52,7 +52,6 @@ public class ImageStorer {
         throw new ImageNotFoundException();
       }
     } catch (MalformedURLException e) {
-      e.printStackTrace();
       throw new RuntimeException();
     }
   }
@@ -62,7 +61,6 @@ public class ImageStorer {
     try {
       Files.deleteIfExists(parentDir);
     } catch (IOException e) {
-      e.printStackTrace();
       throw new ImageProfileIOException(e);
     }
   }
@@ -73,7 +71,6 @@ public class ImageStorer {
       try {
         Files.createDirectories(parentDir);
       } catch (IOException e) {
-        e.printStackTrace();
         throw new ImageProfileIOException(e);
       }
     }
