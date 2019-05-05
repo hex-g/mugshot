@@ -12,34 +12,32 @@ import java.awt.image.BufferedImage;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ImageUtilsTest {
-
   @Value("${hive.mugshot.profile-image-dimension}")
   private int imageSizeInPixels;
 
   @Test
-  public void validateIfHasAnImageAsExtension_whenParameterDoesNotMatchPattern_expectFalseValue(){
+  public void validateIfHasAnImageAsExtension_whenParameterDoesNotMatchPattern_expectFalseValue() {
     Assert.assertFalse(ImageUtils.validateIfHasAnImageAsExtension("a.zip"));
   }
 
   @Test
-  public void validateIfHasAnImageAsExtension_whenParameterMatchPattern_expectTrueValue(){
+  public void validateIfHasAnImageAsExtension_whenParameterMatchPattern_expectTrueValue() {
     Assert.assertTrue(ImageUtils.validateIfHasAnImageAsExtension("a.gif"));
   }
 
   @Test
-  public void resizeImageToSquare_whenInitialImageIsNotNull_expectSquareImageInConfiguredSize(){
-    final var initialImage=new BufferedImage(10,50,BufferedImage.TYPE_INT_RGB);
-    final var resizedImage=ImageUtils.resizeImageToSquare(initialImage,imageSizeInPixels);
-    Assert.assertEquals(imageSizeInPixels,resizedImage.getWidth());
-    Assert.assertEquals(imageSizeInPixels,resizedImage.getHeight());
+  public void resizeImageToSquare_whenInitialImageIsNotNull_expectSquareImageInConfiguredSize() {
+    final var initialImage = new BufferedImage(10, 50, BufferedImage.TYPE_INT_RGB);
+    final var resizedImage = ImageUtils.resizeImageToSquare(initialImage, imageSizeInPixels);
+    Assert.assertEquals(imageSizeInPixels, resizedImage.getWidth());
+    Assert.assertEquals(imageSizeInPixels, resizedImage.getHeight());
   }
 
   @Test
-  public void whenGenerateRandomImageAndResizeToSquare_expectSquareImageInConfiguredSize(){
-    final var generatedImage=ImageUtils.generateRandomImage();
-    final var imageResized=ImageUtils.resizeImageToSquare(generatedImage,imageSizeInPixels);
-    Assert.assertEquals(imageSizeInPixels,imageResized.getWidth());
-    Assert.assertEquals(imageSizeInPixels,imageResized.getHeight());
+  public void whenGenerateRandomImageAndResizeToSquare_expectSquareImageInConfiguredSize() {
+    final var generatedImage = ImageUtils.generateRandomImage();
+    final var imageResized = ImageUtils.resizeImageToSquare(generatedImage, imageSizeInPixels);
+    Assert.assertEquals(imageSizeInPixels, imageResized.getWidth());
+    Assert.assertEquals(imageSizeInPixels, imageResized.getHeight());
   }
-
 }

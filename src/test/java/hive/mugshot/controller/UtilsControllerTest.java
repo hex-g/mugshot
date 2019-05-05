@@ -2,7 +2,8 @@ package hive.mugshot.controller;
 
 import hive.mugshot.storage.ImageStorer;
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,22 +17,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UtilsControllerTest {
-
   private String username = RandomStringUtils.randomAlphabetic(8);
   private Integer userId = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
-
   private MockMvc mockMvc;
-
   @Value("${hive.mugshot.profile-image-name}")
   private String imageName;
-
   @Mock
   private ImageStorer imageStorer;
 
@@ -44,7 +41,7 @@ public class UtilsControllerTest {
   }
 
   @Test
-  public void givenUserName_whenRequestGeneratedImage_then200isReturned() throws Exception{
+  public void givenUserName_whenRequestGeneratedImage_then200isReturned() throws Exception {
     mockMvc
         .perform(
             post("/utils/generateRandomImage")
@@ -53,5 +50,4 @@ public class UtilsControllerTest {
         .andExpect(status().isOk())
         .andDo(print());
   }
-
 }
