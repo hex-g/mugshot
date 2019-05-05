@@ -22,7 +22,7 @@ public final class ImageUtils {
     final var bufferedImageWithNewSize = new BufferedImage(imageSizeInPixels, imageSizeInPixels, BufferedImage.TYPE_INT_RGB);
     final var reSizer = bufferedImageWithNewSize.createGraphics();
     var resizingMode=
-        (inputtedImage.getHeight()<imageSizeInPixels)
+        ( inputtedImage.getHeight() < imageSizeInPixels )
             ? RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR
             : RenderingHints.VALUE_INTERPOLATION_BILINEAR;
     reSizer.setRenderingHint(RenderingHints.KEY_INTERPOLATION, resizingMode);
@@ -32,31 +32,31 @@ public final class ImageUtils {
   }
 
   public static BufferedImage generateRandomImage(){
-    final int yellow=0xF6BD60;
-    final int orange=0xE9724C;
+    final int yellow = 0xF6BD60;
+    final int orange = 0xE9724C;
     final int gray = 0xE8E9EB;
     final int blue = 0x5C9EAD;
     final int black = 0x313638;
     final var colorsCombinations=new int[][]{
-        {yellow,black},
-        {orange,black},
-        {blue,black},
-        {blue,gray},
-        {orange,yellow}
+        {yellow, black},
+        {orange, black},
+        {blue, black},
+        {blue, gray},
+        {orange, yellow}
     };
-    final var combinationIndex=new Random().nextInt(colorsCombinations.length);
-    final var img=new BufferedImage(9,9,BufferedImage.TYPE_INT_RGB);
-    final var maxH=img.getHeight();
-    final var maxV=img.getWidth();
-    for(int vertical=0;vertical<maxV;vertical++){
-      for(int horizontal=0;horizontal<maxH;horizontal++){
-        var pixel=0;
-        if(Math.random()<0.7){
-          pixel=colorsCombinations[combinationIndex][0];
+    final var combinationIndex = new Random().nextInt(colorsCombinations.length);
+    final var img = new BufferedImage(9, 9, BufferedImage.TYPE_INT_RGB);
+    final var maxH = img.getHeight();
+    final var maxV = img.getWidth();
+    for (int vertical = 0; vertical < maxV; vertical++) {
+      for (int horizontal = 0; horizontal < maxH; horizontal++) {
+        var pixel = 0;
+        if (Math.random() < 0.7) {
+          pixel = colorsCombinations[combinationIndex][0];
         }else{
-          pixel=colorsCombinations[combinationIndex][1];
+          pixel = colorsCombinations[combinationIndex][1];
         }
-        img.setRGB(horizontal,vertical,pixel);
+        img.setRGB(horizontal, vertical, pixel);
       }
     }
     return img;
