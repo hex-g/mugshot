@@ -13,6 +13,8 @@
 5. Run the project in your IDE
 ---
 ### Usage
+> URL: `http://localhost:9500/`
+
 #### ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `POST`
 * `head`
     * *key*: `authenticated-user-id`
@@ -28,3 +30,10 @@
 * `head`
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the image will be deleted]
+
+> URL: `http://localhost:9500/utils/generateRandomImage`
+
+#### ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `POST`
+* `head`
+    * *key*: `authenticated-user-id`
+    * *value*: [identification for the folder where the generated image will be stored]
