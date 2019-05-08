@@ -12,7 +12,7 @@ public final class ImageUtils {
   }
 
   public static boolean validateIfHasAnImageAsExtension(final String image) {
-    final var pattern = Pattern.compile(IMAGE_PATTERN);
+    final var pattern = Pattern.compile(IMAGE_PATTERN,Pattern.CASE_INSENSITIVE);
     final var matcher = pattern.matcher(image);
     return matcher.matches();
   }
