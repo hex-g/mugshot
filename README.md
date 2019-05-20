@@ -21,7 +21,7 @@
     * *value*: [identification for the folder where the image will be stored]
 * `body`
     * *key*: `image`
-    * *value*: [file]
+    * *value*: [file in form-data]
 #### ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `GET`
 * `head`
     * *key*: `authenticated-user-id`
