@@ -16,24 +16,24 @@
 > URL: `http://localhost:9500/`
 
 #### ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `POST`
-* `head`
+* `header`
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the image will be stored]
 * `body`
     * *key*: `image`
     * *value*: [file in form-data]
 #### ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `GET`
-* `head`
+* `header`
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the image will be retrieved]
 #### ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `DELETE`
-* `head`
+* `header`
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the image will be deleted]
 
 > URL: `http://localhost:9500/utils/generateRandomImage`
 
 #### ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `POST`
-* `head`
+* `header`
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the generated image will be stored]
