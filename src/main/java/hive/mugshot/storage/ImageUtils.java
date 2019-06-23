@@ -34,6 +34,24 @@ public final class ImageUtils {
     reSizer.dispose();
     return bufferedImageWithNewSize;
   }
+  static BufferedImage resizeImage(
+      final BufferedImage inputtedImage,
+      final int width,
+      final int height
+  ) {
+    // multi-pass bilinear div 2
+    final var bufferedImageWithNewSize =
+        new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    final var reSizer = bufferedImageWithNewSize.createGraphics();
+    var resizingMode =
+        (inputtedImage.getHeight() < height)
+            ? RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR
+            : RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+    reSizer.setRenderingHint(RenderingHints.KEY_INTERPOLATION, resizingMode);
+    reSizer.drawImage(inputtedImage, 0, 0, width, height, null);
+    reSizer.dispose();
+    return bufferedImageWithNewSize;
+  }
 
   public static BufferedImage generateRandomImage() {
     final int yellow = 0xF6BD60;
