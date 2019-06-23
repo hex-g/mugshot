@@ -15,7 +15,9 @@
     2. required Gradle compatible
 ---
 ### Usage
-> URL: `http://localhost:9500/`
+> URL: `http://localhost:9500/` - Profile image
+
+> URL: `http://localhost:9500/banner` - Banner image
 
 #### ![#1589F0](https://placehold.it/15/1589F0/000000?text=+) `POST`
 * `header`
@@ -40,7 +42,10 @@
     * *key*: `authenticated-user-id`
     * *value*: [identification for the folder where the generated image will be stored]
 ---
-> URL: `http://localhost:9500/base64`
+> URL: `http://localhost:9500/base64` - Profile image
+
+> URL: `http://localhost:9500/base64/banner` - Banner image
+
 alternative form for getting image
 #### ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) `GET`
 * `header`
