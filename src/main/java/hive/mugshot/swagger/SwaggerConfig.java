@@ -54,7 +54,12 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         .title("Mugshot endpoints")
         .description("\"Profile image management API\""
             + "\n Repository: https://github.com/hex-g/mugshot"
-            + "\n Created by: https://github.com/hex-g/")
+            + "\n Created by: https://github.com/hex-g/"
+            + "\n\n"
+            + "If this Swagger is accessed under the &Knuckles(Zuul Proxy Server) url you must insert authorization"
+            + ", otherwise it's not necessary."
+            + "\n"
+            + "The Bearer token will override authenticated-user-id in this case")
         .version("v1.0")
         .license("")
         .licenseUrl("")
