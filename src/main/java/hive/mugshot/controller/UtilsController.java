@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import static hive.pandora.constant.HiveInternalHeaders.AUTHENTICATED_USER_ID;
 
 @RestController
-@RequestMapping("/utils")
+@RequestMapping("/generateImage")
 public class UtilsController {
   private final ImageStorer imageStorer;
   @Value("${hive.mugshot.profile-image-name}")
@@ -22,7 +22,7 @@ public class UtilsController {
   }
 
   @ResponseStatus(code = HttpStatus.OK, reason = "Random image generated and successfully stored")
-  @PostMapping("/generateRandomImage")
+  @PostMapping("/random")
   public void generateRandomImage(
       @RequestHeader(name = AUTHENTICATED_USER_ID) final String userId
   ) {

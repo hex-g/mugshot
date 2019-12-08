@@ -27,6 +27,7 @@ public class UtilsControllerTest {
   private String username = RandomStringUtils.randomAlphabetic(8);
   private Integer userId = ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE);
   private MockMvc mockMvc;
+
   @Value("${hive.mugshot.profile-image-name}")
   private String imageName;
   @Mock
@@ -44,7 +45,7 @@ public class UtilsControllerTest {
   public void givenUserName_whenRequestGeneratedImage_then200isReturned() throws Exception {
     mockMvc
         .perform(
-            post("/utils/generateRandomImage")
+            post("/generateImage/random")
                 .header(AUTHENTICATED_USER_ID, username)
         )
         .andExpect(status().isOk())

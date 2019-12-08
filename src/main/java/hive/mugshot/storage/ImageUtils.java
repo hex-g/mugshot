@@ -12,7 +12,7 @@ public final class ImageUtils {
   }
 
   public static boolean validateIfHasAnImageAsExtension(final String image) {
-    final var pattern = Pattern.compile(IMAGE_PATTERN);
+    final var pattern = Pattern.compile(IMAGE_PATTERN,Pattern.CASE_INSENSITIVE);
     final var matcher = pattern.matcher(image);
     return matcher.matches();
   }
@@ -31,6 +31,24 @@ public final class ImageUtils {
             : RenderingHints.VALUE_INTERPOLATION_BILINEAR;
     reSizer.setRenderingHint(RenderingHints.KEY_INTERPOLATION, resizingMode);
     reSizer.drawImage(inputtedImage, 0, 0, imageSizeInPixels, imageSizeInPixels, null);
+    reSizer.dispose();
+    return bufferedImageWithNewSize;
+  }
+  static BufferedImage resizeImage(
+      final BufferedImage inputtedImage,
+      final int width,
+      final int height
+  ) {
+    // multi-pass bilinear div 2
+    final var bufferedImageWithNewSize =
+        new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    final var reSizer = bufferedImageWithNewSize.createGraphics();
+    var resizingMode =
+        (inputtedImage.getHeight() < height)
+            ? RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR
+            : RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+    reSizer.setRenderingHint(RenderingHints.KEY_INTERPOLATION, resizingMode);
+    reSizer.drawImage(inputtedImage, 0, 0, width, height, null);
     reSizer.dispose();
     return bufferedImageWithNewSize;
   }

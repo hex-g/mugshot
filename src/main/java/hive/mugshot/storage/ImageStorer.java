@@ -22,6 +22,10 @@ public class ImageStorer {
   private String rootDir;
   @Value("${hive.mugshot.profile-image-dimension}")
   private int imageSizeInPixels;
+  @Value("${hive.mugshot.banner-image-width}")
+  private int bannerWidth;
+  @Value("${hive.mugshot.banner-image-height}")
+  private int bannerHeight;
 
   public void storeImageProfile
       (
@@ -34,6 +38,28 @@ public class ImageStorer {
       final var buff = ImageUtils.resizeImageToSquare(
           ImageIO.read(insertedImage.getInputStream()),
           imageSizeInPixels
+      );
+      ImageIO.write(
+          buff,
+          "jpg",
+          createFullPathToTheFile(userDirectoryName, imageStoredName).toFile()
+      );
+    } catch (IOException e) {
+      throw new ImageProfileIOException(e);
+    }
+  }
+  public void storeBannerImage
+      (
+          final String userDirectoryName,
+          final MultipartFile insertedImage,
+          final String imageStoredName
+      ) {
+    createDirectoryIfNotExist(userDirectoryName);
+    try {
+      final var buff = ImageUtils.resizeImage(
+          ImageIO.read(insertedImage.getInputStream()),
+          bannerWidth,
+          bannerHeight
       );
       ImageIO.write(
           buff,
